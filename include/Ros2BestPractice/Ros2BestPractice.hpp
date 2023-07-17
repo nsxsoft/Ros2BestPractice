@@ -10,6 +10,7 @@
 #include <chrono>
 #include <functional>
 #include <unordered_map>
+#include <boost/thread/thread.hpp>
 
 // ROS2 Libraries
 #include "rclcpp/rclcpp.hpp"
@@ -17,9 +18,6 @@
 #include "sensor_msgs/msg/image.hpp"
 
 #define __APP_NAME__ "ros2-best-practice"
-
-using std::placeholders::_1;
-using namespace std::chrono_literals;
 
 namespace ros2_cpp_pkg
 {
@@ -57,6 +55,22 @@ namespace ros2_cpp_pkg
 
     private:
         /*!
+         *  Parameter Initialization.
+         */
+      inline  void parameterInitilization() const;
+
+        /*!
+         *  rclcpp Parameter Reader
+         */
+      inline  void rclcppParameterReader();
+
+        /*!
+         *  Print Parameters.
+         */
+     inline   void parameterPrinter() const;
+
+        /*!
+         * Reads the only std library variables
          * Reads and verifies the ROS parameters.
          * @return true if successful.
          */
@@ -97,6 +111,9 @@ namespace ros2_cpp_pkg
          * @param m_point_cloud @param m_image  the received message.
          */
         inline void contiuousCallback();
+
+        //! rclcpp node variable
+        rclcpp::Node::SharedPtr m_node;
 
         //! ROS pointer sensor_msgs::pointcloud2 .
         sensor_msgs::msg::PointCloud2::SharedPtr m_point_cloud;
